@@ -1751,9 +1751,9 @@ IF _C64_VERSION
  JSR OpenFile           \ Open a file for saving, returning the device number
                         \ in X
 
- LDA #0                 \ Call SETLFS to set the file parameters, with X set to
+ LDA #1                 \ Call SETLFS to set the file parameters, with X set to
  LDY #0                 \ the device number from above, and A and Y set to file
- JSR SETLFS             \ number 0 and secondary address 0
+ JSR SETLFS             \ number 1 and secondary address 0
 
                         \ We first try to delete the file, so we can replace it
                         \ if it exists
@@ -1776,7 +1776,7 @@ IF _C64_VERSION
 
  JSR OPEN               \ Open the file
 
- LDA #0                 \ Close the file (which we set up as logical file 0) to
+ LDA #1                 \ Close the file (which we set up as logical file 1) to
  JSR CLOSE              \ delete it
 
                         \ Now to save the file
@@ -1793,9 +1793,9 @@ IF _C64_VERSION
  LDA deviceNumber,X     \ setting in DTAPE
  TAX
 
- LDA #0                 \ Call SETLFS to set the file parameters, with X set to
+ LDA #1                 \ Call SETLFS to set the file parameters, with X set to
  LDY #0                 \ the device number from above, and A and Y set to file
- JSR SETLFS             \ number 0 and secondary address 0
+ JSR SETLFS             \ number 1 and secondary address 0
 
  LDX #LO(log)           \ Set RAND(1 0) to the save address of log
  STX RAND
