@@ -1755,6 +1755,48 @@ IF _C64_VERSION
  LDY #0                 \ the device number from above, and A and Y set to file
  JSR SETLFS             \ number 0 and secondary address 0
 
+                        \ We first try to delete the file, so we can replace it
+                        \ if it exists
+
+ LDA #'S'               \ Prepend "S0:" to the filename, overwriting the ":0.E."
+ STA INWK+2             \ prefix
+ LDA #'0'
+ STA INWK+3
+ LDA #':'
+ STA INWK+4
+
+ LDA NAMELEN1           \ Set A to the filename length that was set in GTNMEW,
+ CLC                    \ plus 3 to cover the scratch command "S0:"
+ ADC #3
+
+ LDX #LO(INWK+2)        \ Set (Y X) to the address of the file name at INWK,
+ LDY #HI(INWK+2)        \ inclusing the "S0:" prefix
+
+ JSR SETNAM             \ Call SETNAM to set the name of the file
+
+ JSR OPEN               \ Open the file
+
+ LDA #0                 \ Close the file (which we set up as logical file 0) to
+ JSR CLOSE              \ delete it
+
+                        \ Now to save the file
+
+ LDA NAMELEN1           \ Set A to the filename length that was set in GTNMEW
+
+ LDX #LO(INWK+5)        \ Set (Y X) to the address of the file name at INWK,
+ LDY #HI(INWK+5)        \ skipping the prefix from the previous step
+
+ JSR SETNAM             \ Call SETNAM to set the name of the file
+
+ LDX DTAPE              \ Set X to the correct device number for tape or disk,
+ INX                    \ taken from the table at deviceNumber, using the media
+ LDA deviceNumber,X     \ setting in DTAPE
+ TAX
+
+ LDA #0                 \ Call SETLFS to set the file parameters, with X set to
+ LDY #0                 \ the device number from above, and A and Y set to file
+ JSR SETLFS             \ number 0 and secondary address 0
+
  LDX #LO(log)           \ Set RAND(1 0) to the save address of log
  STX RAND
  LDY #HI(log)

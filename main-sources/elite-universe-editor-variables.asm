@@ -226,6 +226,8 @@ ELIF _C64_VERSION
  SETMSG          = $FF90
  SETLFS          = $FFBA
  SETNAM          = $FFBD
+ OPEN            = $FFC0
+ CLOSE           = $FFC3
  LOAD            = $FFD5
  SAVE            = $FFD8
 
