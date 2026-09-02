@@ -1399,20 +1399,6 @@ ENDIF
 
  JSR ResetExplosions    \ Reset any explosions so they restart on loading
 
-                        \ We now set the correct space station type, according
-                        \ to the value of MANY+2 (which will be 0 for the sun,
-                        \ 1 for a Coriolis or 2 for a Dodo, as this value gets
-                        \ bumped up as each new station is spawned in the
-                        \ editor, and zeroed when we switch back to the sun)
-
- LDA MANY+2             \ Set the tech level to 0 (when there's a sun), 8 (when
- ASL A                  \ there's a Coriolis) or 16 (when there's a Dodo)
- ASL A                  \
- ASL A                  \ Technically speaking, tek should be in the range 0 to
- STA tek                \ 14 rather than 0 to 16, but it will be reset when we
-                        \ play the universe and doesn't make a lot of difference
-                        \ in the meantime (we don't have space to cap the value)
-
 .load1
 
 IF _6502SP_VERSION OR _MASTER_VERSION
