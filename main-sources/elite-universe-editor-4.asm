@@ -1752,8 +1752,11 @@ IF _C64_VERSION
                         \ in X
 
  LDA #1                 \ Call SETLFS to set the file parameters, with X set to
- LDY #0                 \ the device number from above, and A and Y set to file
- JSR SETLFS             \ number 1 and secondary address 0
+ LDY #15                \ the device number from above, and A and Y set to file
+ JSR SETLFS             \ number 1 and secondary address 15
+                        \
+                        \ The last setting enables us to send commands to the
+                        \ disk drive via command channel 15
 
                         \ We first try to delete the file, so we can replace it
                         \ if it exists
