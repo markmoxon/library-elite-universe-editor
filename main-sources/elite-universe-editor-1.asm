@@ -920,4 +920,41 @@ IF _6502SP_VERSION
 
 ENDIF
 
+\ ******************************************************************************
+\
+\       Name: FixStationType
+\       Type: Subroutine
+\   Category: Universe editor
+\    Summary: Set the correct station type on loading a new universe file
+\
+\ ******************************************************************************
+
+IF _6502SP_VERSION OR _C64_VERSION
+
+.FixStationType
+
+                        \ We now set the correct space station type, according
+                        \ to the value of MANY+2 (which will be 0 for the sun,
+                        \ 1 for a Coriolis or 2 for a Dodo, as this value gets
+                        \ bumped up as each new station is spawned in the
+                        \ editor, and zeroed when we switch back to the sun)
+
+ LDA MANY+2             \ If MANY+2 < 2 then this should be a Coriolis station,
+ CMP #2                 \ which we have already set before calling this fix, so
+ BCC type1              \ jump to type1 to return from the subroutine
+
+ LDA XX21+2*DOD-2       \ Copy the address of the Dodo space station's ship
+ STA XX21+2*SST-2       \ blueprint from spasto to the #SST entry in the
+ LDA XX21+2*DOD-1       \ blueprint lookup table at XX21, so when we spawn a
+ STA XX21+2*SST-1       \ ship of type #SST, it will be a Dodo station
+
+ LDA #10                \ Set the tech level for a Dodo station
+ STA tek
+
+.type1
+
+ RTS                    \ Return from the subroutine
+
+ENDIF
+
 .endUniverseEditor1

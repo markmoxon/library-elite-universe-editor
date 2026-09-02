@@ -208,6 +208,7 @@ ELIF _C64_VERSION
  NTY             = 33
  MSL             = 1
  SST             = 2
+ DOD             = 33
 
  VE              = $57
 
@@ -370,6 +371,7 @@ ELIF _C64_VERSION
  TT102           = $86B1    \ JSR TT102+7 in DrawCharts
  TT92            = $86D0    \ STA TT92-7 in ApplyMods/RevertMods
  NWDAV5          = $872C    \ LDA #NWDAV5-TT92+6 in ApplyMods
+ spasto          = $8861
  BR1             = $8882
  DFAULT          = $88F0
  TITLE           = $8920

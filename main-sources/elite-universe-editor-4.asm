@@ -1399,6 +1399,20 @@ ENDIF
 
  JSR ResetExplosions    \ Reset any explosions so they restart on loading
 
+IF _6502SP_VERSION OR _C64_VERSION
+
+ LDA spasto             \ Copy the address of the Coriolis space station's ship
+ STA XX21+2*SST-2       \ blueprint from spasto to the #SST entry in the
+ LDA spasto+1           \ blueprint lookup table at XX21, so when we spawn a
+ STA XX21+2*SST-1       \ ship of type #SST, it will be a Coriolis station
+
+ LDA #1                 \ Set the tech level for a Coriolis station
+ STA tek
+
+ JSR FixStationType     \ Change the space station type to a Dodo if required
+
+ENDIF
+
 .load1
 
 IF _6502SP_VERSION OR _MASTER_VERSION
